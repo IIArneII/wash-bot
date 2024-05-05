@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  wash_bot_postgres:
+    container_name: wash_bot_postgres
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-wash_bot}
+    volumes:
+      - ./postgresql_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+
+  wash_bot:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: wash_bot
+    restart: always
+    depends_on:
+      - wash_bot_postgres
+    environment:
+      LOG_DIR: ./logs
+      BOT_TOKEN: ${BOT_TOKEN}
+      DB_USER: ${DB_USER:-admin}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_NAME: ${DB_NAME:-wash_bot}
+    volumes:
+      - ${LOG_DIR:-./logs}:/app/logs
