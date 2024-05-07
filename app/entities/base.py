@@ -1,5 +1,6 @@
-from pydantic import BaseModel as PydanticBaseModel, Field, ConfigDict
+from pydantic import BaseModel as PydanticBaseModel, ConfigDict
 from datetime import datetime
+from uuid import UUID
 from humps import camelize
 
 
@@ -13,6 +14,13 @@ class BaseModel(PydanticBaseModel):
 
 
 class EntityBaseModel(BaseModel):
-    id: int
     created_at: datetime
     updated_at: datetime
+
+
+class EntityBaseIdModel(EntityBaseModel):
+    id: int
+
+
+class EntityBaseUuidModel(EntityBaseModel):
+    id: UUID

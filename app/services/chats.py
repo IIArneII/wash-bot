@@ -8,7 +8,7 @@ class ChatsService:
     def __init__(self, chats_repository: ChatsRepository) -> None:
         self._chats_repository = chats_repository
     
-    async def new_chat(self, chat_create: ChatCreate) -> bool:
+    async def create(self, chat_create: ChatCreate) -> bool:
         chat = self._chats_repository.get(chat_create.id)
 
         if chat:

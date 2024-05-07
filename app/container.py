@@ -5,8 +5,8 @@ from loguru import logger
 
 from app.config import Config
 from app.db.db import DataBase
-from app.repositories import NotificationsRepository, ChatsRepository
-from app.services import NotificationsService, ChatsService
+from app.repositories import NotificationsRepository, ChatsRepository, OrganizationsRepository, GroupsRepository, WashesRepository
+from app.services import NotificationsService, ChatsService, OrganizationsService, GroupsService, WashesService
 from app.bot import init_bot, init_dispatcher
 from app.transport.rabbit import RabbitClient
 from app.infrastructure.telegram_client import TelegramClient
@@ -19,6 +19,9 @@ class Container(DeclarativeContainer):
 
     notifications_repository: NotificationsRepository = Factory(NotificationsRepository, get_session=db.provided.get_session)
     chats_repository: ChatsRepository = Factory(ChatsRepository, get_session=db.provided.get_session)
+    organizations_repository: OrganizationsRepository = Factory(OrganizationsRepository, get_session=db.provided.get_session)
+    groups_repository: GroupsRepository = Factory(GroupsRepository, get_session=db.provided.get_session)
+    washes_repository: WashesRepository = Factory(WashesRepository, get_session=db.provided.get_session)
 
     dispatcher: Dispatcher = Resource(init_dispatcher)
     bot: Bot = Resource(init_bot, config=config.bot)
@@ -31,10 +34,16 @@ class Container(DeclarativeContainer):
         NotificationsService,
         notifications_repository=notifications_repository,
         chats_repository=chats_repository,
+        organizations_repository=organizations_repository,
+        groups_repository=groups_repository,
+        washes_repository=washes_repository,
         telegram_client=telegram_client,
     )
 
     chats_service: ChatsService = Factory(ChatsService, chats_repository=chats_repository)
+    organizations_service: OrganizationsService = Factory(OrganizationsService, organizations_repository=organizations_repository)
+    groups_service: GroupsService = Factory(GroupsService, groups_repository=groups_repository)
+    washes_service: WashesService = Factory(WashesService, washes_repository=washes_repository)
 
 
 container : Container | None = None
