@@ -28,5 +28,7 @@ services:
       DB_USER: ${DB_USER:-admin}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       DB_NAME: ${DB_NAME:-wash_bot}
+      RABBIT_USER: ${RABBIT_USER:-admin}
+      RABBIT_PASSWORD: ${RABBIT_PASSWORD:-password}
     volumes:
       - ${LOG_DIR:-./logs}:/app/logs
