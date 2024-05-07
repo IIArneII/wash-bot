@@ -1,9 +1,9 @@
 from uuid import UUID
 
-from app.entities.base import EntityBaseModel, BaseModel
+from app.entities.base import EntityBaseIdModel, BaseModel
 
 
-class Chat(EntityBaseModel):
+class Chat(EntityBaseIdModel):
     name: str
     for_system_managers: bool = False
     organization_id: UUID | None = None

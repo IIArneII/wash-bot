@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  wash_bot_postgres_test:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_DB: "wash_bot_test"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    ports:
+      - "${DB_PORT_TEST:-5432}:5432"

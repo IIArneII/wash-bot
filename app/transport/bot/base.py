@@ -20,7 +20,7 @@ async def start(updated: ChatMemberUpdated):
             and updated.new_chat_member.user.id == updated.bot.id:
         
             chats_service: ChatsService = get_container().chats_service()
-            await chats_service.new_chat(ChatCreate(
+            await chats_service.create(ChatCreate(
                 id=updated.chat.id,
                 name=updated.chat.full_name
             ))
